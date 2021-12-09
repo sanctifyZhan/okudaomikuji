@@ -19,23 +19,15 @@
 		<a-scene shadow="type: pcfsoft">
 			<a-assets>
 				
-				<a-asset-item id="gltf-obj" src="glTF/DamagedHelmet.gltf"></a-asset-item>
+				
 				<a-asset-item id="gltf-animtest" src="glTF/1M_BOX_ANI.gltf"></a-asset-item>
 				<a-asset-item id="gltf-omikuji" src="glTF/omikuji_ani.gltf"></a-asset-item>
 			</a-assets>
 			<!-- Camera -->
-			<a-entity id="rig" position="0 1.6 3">
-				<a-entity id="camera" camera="fov: 60; far: 5000; near: 0.001" look-controls wasd-controls="acceleration: 10" cursor-visible="true" position="0 0 0" rotation="0 0 0">
-					<!-- cursor -->
-					</a-entity>
-			</a-entity>
+			<a-entity camera position="0 0 1"></a-entity>
 			
-			<!-- Light -->
-			<a-entity light="type: directional; castShadow: true; intensity: 1.0; shadowMapHeight: 2048; shadowMapWidth: 2048; shadowBias: .00000001; shadowCameraRight: 6; shadowCameraLeft: -6; shadowCameraTop: 6; shadowCameraBottom: -6: shadowCameraFar: 500; shadowCameraVisible: true" position="-3 3 3"></a-entity>
-			<a-entity light="type: ambient; intensity: 0.5; color: #FFFFFF"></a-light>
-			<!-- obj -->
-			<a-entity id="Flower" gltf-model="#gltf-obj" position="1 1.5 1" scale=".5 .5 .5" rotation="0 0 0" shadow="receive: true; cast: true"></a-entity>
-			<a-entity id="animtest" gltf-model="#gltf-animtest" position="1.5 1.5 1.5" scale=".5 .5 .5" rotation="0 0 0" shadow="receive: true; cast: true" animation-mixer="clip:*"></a-entity>
+			
+		<a-entity id="animtest" gltf-model="#gltf-animtest" position="1.5 1.5 1.5" scale=".5 .5 .5" rotation="0 0 0" shadow="receive: true; cast: true" animation-mixer="clip:*"></a-entity>
 			<!-- <a-entity position="1.5 1.5 3" scale=".5 .5 .5" fbx-model="src: fbx/1M_BOX_ANI.fbx;" shadow="receive: true; cast: true" animation-mixer="clip:*"></a-entity> -->
 			<a-entity position="0 0 0" scale="1 1 1" fbx-model="src: fbx/step.fbx;" shadow="receive: true; cast: true"></a-entity>
 			<a-entity position="0 0 0" scale="1 1 1" fbx-model="src: fbx/position_model_normal_v2.fbx;" shadow="receive: true; cast: true"></a-entity>
