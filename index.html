@@ -24,7 +24,12 @@
 				<a-asset-item id="gltf-omikuji" src="glTF/omikuji_ani.gltf"></a-asset-item>
 			</a-assets>
 			<!-- Camera -->
-			<a-entity camera position="0 0 1"></a-entity>
+			<a-entity id="rig" position="0 1.6 3">
+				<a-entity id="camera" camera="fov: 60; far: 5000; near: 0.001" look-controls wasd-controls="acceleration: 10" cursor-visible="true" position="0 0 0" rotation="0 0 0">
+					<!-- cursor -->
+					<a-entity cursor="fuse: true; fuseTimeout: 2000" position="0 0 -1" geometry="primitive: ring" scale="0.03 0.03 0.03" material="color: gray; shader: flat"></a-entity>
+				</a-entity>
+			</a-entity>
 			
 			
 		<a-entity id="animtest" gltf-model="#gltf-animtest" position="1.5 1.5 1.5" scale=".5 .5 .5" rotation="0 0 0" shadow="receive: true; cast: true" animation-mixer="clip:*"></a-entity>
