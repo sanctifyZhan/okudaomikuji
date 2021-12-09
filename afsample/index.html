@@ -1,0 +1,494 @@
+<html>
+
+<head>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script
+    src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+  <script src="https://unpkg.com/aframe-gradient-sky@1.2.0/dist/gradientsky.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+  <script
+    src="https://rawcdn.githack.com/elbobo/aframe-animation-toggle-component/7ef92afbc8b16ad34c1689945ff9f46c570be2d6/dist/aframe-animation-toggle-component.js"></script>
+  <script src="https://www.lokeldigital.com/shared-code/a-frame/onclick.js"></script>
+  <script
+    src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+  <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+  <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+
+
+
+
+  <!-- Component (includes A-Frame core) -->
+  <script src="dist/aframe-no-click-look-controls.min.js"></script>
+
+
+
+  <script>
+
+    function objectToPos(posObject) {
+      return posObject.x + " " + posObject.y + " " + posObject.z
+    }
+
+    function clickHandler(target) {
+      let cameraRig = document.querySelector("#camera-rig")
+      let targetPos = objectToPos(target.getAttribute("position"))
+      let camPos = objectToPos(cameraRig.getAttribute("position"))
+
+      cameraRig.setAttribute("animation", `property:position;from:${camPos};to:${targetPos};dur:700`)
+    }
+
+    function registerHandlerForClick(target) {
+      target.addEventListener('click', function () {
+        clickHandler(target)
+      })
+    }
+
+    function setupHandlers() {
+      let targetList = document.querySelectorAll('.moveTarget')
+      let index = 0
+      while (index < targetList.length) {
+        registerHandlerForClick(targetList[index])
+        index = index + 1
+      }
+    }
+    window.onload = setupHandlers
+  </script>
+
+</head>
+
+<body>
+  <a-scene cursor="rayOrigin: mouse" inspector-plugin-recast embedded arjs='debugUIEnabled:false; trackingMethod: best;'
+    device-orientation-permission-ui="enabled: false" vr-mode-ui="enabled: false" loading-screen="enabled:false"
+    precision: mediump>
+
+    <a-assets>
+      <a-mixin id="fleftpos"></a-mixin>
+
+      <a-mixin id="sphere" material="color:orange" visible="false" geometry="primitive:sphere;radius:0.3"></a-mixin>
+      <img id="sky" src="sky.jpg">
+      <a-asset-item id="Room-obj" src="Room0513.obj"></a-asset-item>
+      <a-asset-item id="Room-mtl" src="Room0513.mtl"></a-asset-item>
+      <a-asset-item id="sofa-obj" src="sofa.obj"></a-asset-item>
+      <a-asset-item id="sofa-mtl" src="sofa.mtl"></a-asset-item>
+
+      <a-mixin id="bouncy" position="0 1 -3"
+        animation__click=" startEvents:click; property:position;fill:forwards; repeat:1; direction:alternate; attribute:position; from: 0 1 -3; to: 0 2 -3; dur: 500;">
+      </a-mixin>
+
+
+      <a-mixin id="campos" position="0 1 3">
+      </a-mixin>
+
+    </a-assets>
+
+
+
+    <!-- Checkpoints -->
+    <a-entity position="0 0 0">
+      <a-sphere color="red" height="0.2" width="1" checkpoint id="checkpoint1" radius="0.1" position="1 4 -4"
+        look-at="[camera]" color="#39BB82" class="moveTarget"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: View All; width: 2;">
+      </a-sphere>
+      <a-sphere checkpoint radius="0.1" height="0.1" position="-1 2 -3" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Living Room; width: 0.7;"></a-sphere>
+
+      <a-sphere checkpoint radius="0.1" height="0.1" position="2.4 0.3 -4.7" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Lobby; width: 0.7;"></a-sphere>
+
+      <a-sphere checkpoint radius="0.1" height="0.1" position="2.5 4 4.5" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Bedroom; width: 2;"></a-sphere>
+
+      <a-sphere checkpoint radius="0.1" height="0.1" position="1.2 3 1.4" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Toilet; width: 2;"></a-sphere>
+
+      <a-sphere checkpoint radius="0.1" height="0.1" position="1.5 4 0" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Closet; width: 2;"></a-sphere>
+
+      <a-sphere checkpoint radius="0.1" height="0.1" position="-1.2 1.5 1" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Door; width: 2;"></a-sphere>
+
+      <a-sphere checkpoint radius="0.1" height="0.1" position="-1.4 4 4.5" color="#39BB82" class="moveTarget"
+        look-at="[camera]"
+        animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+        text="color: black; align: left; value: Work; width: 2;"></a-sphere>
+
+    </a-entity>
+
+    
+
+
+    <a-plane position="-1 1 -5" height="0.2" width="0.4" color="#fc9630" look-at="[camera]"
+      event-set__enter="_event: click; _target: #hidehide;property:visible; visible:true"
+      event-set__enterb="_event: click; _target: #hidehideb;property:visible; visible:true"
+      event-set__enterp="_event: click; _target: #hidehidep;property:visible; visible:true"
+      event-set__enterr="_event: click; _target: #hidehider;property:visible; visible:true"
+      text="align: center ; value: Color; color:while; width: 2.5;">
+
+    </a-plane>
+
+    <a-text id="hidehide" height="1" width="1" value="OFF" align="center" color="#FFF" visible="false"
+      position="-0.7 1 -5" look-at="[camera]" geometry="primitive: plane; width: 0.1; height:0.1" material="color: #333"
+      animation__position="property: visible; from: true; to: false; startEvents: click"
+      event-set__enter="_event: click; dir:alternate; _target: #hidehideb; visible:false"
+      event-set__enter2="_event: click; dir:alternate; _target: #hidehidep; visible:false"
+      event-set__enter3="_event: click; dir:alternate; _target: #hidehider; visible:false"></a-text>
+
+
+
+    <a-plane id="hidehideb" position="-1.5 1.5 -5" height="0.2" width="0.4" color="#763791" visible="false"
+      look-at="[camera]" event-set__enter="_event: click; dir:alternate; _target: #Sofa; material:color:#763791;"
+      animation__position="property: visible; from: true; to: false; startEvents: click"
+      event-set__enterp="_event: click; _target: #hidehidep; visible:false"
+      event-set__enterr="_event: click; _target: #hidehider; visible:false"
+      event-set__enterh="_event: click; _target: #hidehide; visible:false"
+      text="align: center ; value: PURPLE; color:while; width: 2.5;">
+
+      <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="-3 2 0"
+        geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+    </a-plane>
+
+
+    <a-plane id="hidehidep" position="-1 1.5 -5" height="0.2" width="0.4" color="#fc9630" visible="false"
+      look-at="[camera]" event-set__enter="_event: click; dir:alternate; _target: #Sofa; material:color:#fc9630;"
+      animation__position="property: visible; from: true; to: false; startEvents: click"
+      event-set__enterb="_event: click; _target: #hidehideb; visible:false"
+      event-set__enterr="_event: click; _target: #hidehider; visible:false"
+      event-set__enterh="_event: click; _target: #hidehide; visible:false"
+      text="align: center ; value: ORANGE; color:while; width: 2.5;">
+
+      <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="-3 2 0"
+        geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+    </a-plane>
+
+
+
+    <a-plane id="hidehider" position="-0.5 1.5 -5" height="0.2" width="0.4" color="red" visible="false"
+      look-at="[camera]" event-set__enter="_event: click; dir:alternate; _target: #Sofa; material:color:red"
+      animation__position="property: visible; from: true; to: false; startEvents: click"
+      event-set__enterp="_event: click; _target: #hidehidep; visible:false"
+      event-set__enterb="_event: click; _target: #hidehideb; visible:false"
+      event-set__enterh="_event: click; _target: #hidehide; visible:false"
+      text="align: center; value: RED; color:while; width: 2.5;">
+
+      <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="-3 2 0"
+        geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+    </a-plane>
+
+
+    <!-- Animations. floor-plane -->
+    <a-entity id="fleft" mixin="fleftpos">
+      <a-entity mixin="bouncy sphere" position="0 1 -3"></a-entity>
+    </a-entity>
+
+    <a-entity id="camera-rig" mixin="campos" position="-0.5 1.3 0">
+
+      <a-camera id="camera" wasd-controls="enabled:false;" mouse-cursor camera="active: true" fov="70">
+
+      </a-camera>
+      
+
+    </a-entity>
+
+
+    <!-- cursor -->
+    <a-entity cursor="rayOrigin: mouse"></a-entity>
+    <!-- Light -->
+
+    </a-light>
+    <!-- obj -->
+    <a-entity id="Room" obj-model="obj:#Room-obj; mtl:#Room-mtl;" position="0 0 0" scale=".01 .01 .01"
+      rotation="0 180 0" shadow="receive: true; cast: true"></a-entity>
+
+    <a-entity id="Sofa" obj-model="obj:#sofa-obj; mtl:#sofa-mtl;" position="-0.7 0 -5.5" scale=".006 .006 .006"
+      rotation="0 100 0" animation__position="property: position; from: -0.7 0 -5.5; to: 2 0 -5.5; startEvents: click"
+      animation__color="property: color; from: #333; to: #ff0000; startEvents: click"
+      animation__rotation="property: rotation; from: 0 100 0; to: 0 165 0; startEvents: click"
+      animation-toggle="names: animation__position, animation__color, animation__rotation"
+      shadow="receive: true; cast: true">
+    </a-entity>
+    <!-- check mouse move
+      <a-camera look-controls mouse-cursor>
+  -->
+
+
+
+
+
+
+  </a-scene>
+</body>
+
+</html>
+
+
+//
+
+<html>
+
+	<head>
+	  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+	  <script
+		src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+	  <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+	  <script src="https://unpkg.com/aframe-gradient-sky@1.2.0/dist/gradientsky.min.js"></script>
+	  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
+	  <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+	  <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	  <script
+		src="https://rawcdn.githack.com/elbobo/aframe-animation-toggle-component/7ef92afbc8b16ad34c1689945ff9f46c570be2d6/dist/aframe-animation-toggle-component.js"></script>
+	  <script src="https://www.lokeldigital.com/shared-code/a-frame/onclick.js"></script>
+	  <script
+		src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+	  <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+	  <script src="aframe-cursor-teleport-component.min.js"></script>
+	  <script
+		src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+	
+	
+	
+	
+	  <!-- Component (includes A-Frame core) -->
+	  <script src="dist/aframe-no-click-look-controls.min.js"></script>
+	
+	
+	
+	  <script>
+	
+		function objectToPos(posObject) {
+		  return posObject.x + " " + posObject.y + " " + posObject.z
+		}
+	
+		function clickHandler(target) {
+		  let cameraRig = document.querySelector("#camera-rig")
+		  let targetPos = objectToPos(target.getAttribute("position"))
+		  let camPos = objectToPos(cameraRig.getAttribute("position"))
+	
+		  cameraRig.setAttribute("animation", `property:position;from:${camPos};to:${targetPos};dur:700`)
+		}
+	
+		function registerHandlerForClick(target) {
+		  target.addEventListener('click', function () {
+			clickHandler(target)
+		  })
+		}
+	
+		function setupHandlers() {
+		  let targetList = document.querySelectorAll('.moveTarget')
+		  let index = 0
+		  while (index < targetList.length) {
+			registerHandlerForClick(targetList[index])
+			index = index + 1
+		  }
+		}
+		window.onload = setupHandlers
+	  </script>
+	
+	</head>
+	
+	<body>
+	  <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="colorManagement: true;" embedded
+		arjs='debugUIEnabled:false; trackingMethod: best;' device-orientation-permission-ui="enabled: false"
+		vr-mode-ui="enabled: false" loading-screen="enabled:false" precision: mediump>
+	
+	
+		<a-assets>
+		  <a-mixin id="fleftpos"></a-mixin>
+	
+		  <a-mixin id="sphere" material="color:orange" visible="false" geometry="primitive:sphere;radius:0.3"></a-mixin>
+		  <img id="sky" src="sky.jpg">
+		  <a-asset-item id="Room-obj" src="Room0513.obj"></a-asset-item>
+		  <a-asset-item id="Room-mtl" src="Room0513.mtl"></a-asset-item>
+		  <a-asset-item id="sofa-obj" src="sofa.obj"></a-asset-item>
+		  <a-asset-item id="sofa-mtl" src="sofa.mtl"></a-asset-item>
+	
+		  <a-mixin id="bouncy" position="0 1 -3"
+			animation__click=" startEvents:click; property:position;fill:forwards; repeat:1; direction:alternate; attribute:position; from: 0 1 -3; to: 0 2 -3; dur: 500;">
+		  </a-mixin>
+	
+	
+		  <a-mixin id="campos" position="0 1 3">
+		  </a-mixin>
+	
+		</a-assets>
+	
+	
+	
+		<!-- Checkpoints -->
+		<a-entity class="clickable" position="0 0 0">
+		  <a-sphere color="red" height="0.2" width="1" checkpoint id="checkpoint1" radius="0.1" position="1 4 -4"
+			look-at="[camera]" color="#39BB82" class="moveTarget"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: View All; width: 2;">
+		  </a-sphere>
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="-1 2 -3" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Living Room; width: 0.7;"></a-sphere>
+	
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="2.4 0.3 -4.7" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Lobby; width: 0.7;"></a-sphere>
+	
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="2.5 4 4.5" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Bedroom; width: 2;"></a-sphere>
+	
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="1.2 3 1.4" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Toilet; width: 2;"></a-sphere>
+	
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="1.5 4 0" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Closet; width: 2;"></a-sphere>
+	
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="-1.2 1.5 1" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Door; width: 2;"></a-sphere>
+	
+		  <a-sphere checkpoint radius="0.1" height="0.1" position="-1.4 4 4.5" color="#39BB82" class="moveTarget"
+			look-at="[camera]"
+			animation="prsoperty: components.text.material.uniforms.opacity.value; to: 0; dir: alternate; loop: true"
+			text="color: black; align: left; value: Work; width: 2;"></a-sphere>
+	
+		</a-entity>
+	
+	
+	
+	
+		<a-plane class="clickable" position="-1 1 -5" height="0.2" width="0.4" color="#fc9630" look-at="[camera]"
+		  event-set__enter="_event: click; _target: #hidehide;property:visible; visible:true"
+		  event-set__enterb="_event: click; _target: #hidehideb;property:visible; visible:true"
+		  event-set__enterp="_event: click; _target: #hidehidep;property:visible; visible:true"
+		  event-set__enterr="_event: click; _target: #hidehider;property:visible; visible:true"
+		  text="align: center ; value: Color; color:while; width: 2.5;">
+	
+		</a-plane>
+	
+		<a-text class="clickable" id="hidehide" height="1" width="1" value="OFF" align="center" color="#FFF" visible="false"
+		  position="-0.7 1 -5" look-at="[camera]" geometry="primitive: plane; width: 0.1; height:0.1" material="color: #333"
+		  animation__position="property: visible; from: true; to: false; startEvents: click"
+		  event-set__enter="_event: click; dir:alternate; _target: #hidehideb; visible:false"
+		  event-set__enter2="_event: click; dir:alternate; _target: #hidehidep; visible:false"
+		  event-set__enter3="_event: click; dir:alternate; _target: #hidehider; visible:false"></a-text>
+	
+	
+	
+		<a-plane class="clickable" id="hidehideb" position="-1.5 1.5 -5" height="0.2" width="0.4" color="#763791" visible="false"
+		  look-at="[camera]" event-set__enter="_event: click; dir:alternate; _target: #Sofa; material:color:#763791;"
+		  animation__position="property: visible; from: true; to: false; startEvents: click"
+		  event-set__enterp="_event: click; _target: #hidehidep; visible:false"
+		  event-set__enterr="_event: click; _target: #hidehider; visible:false"
+		  event-set__enterh="_event: click; _target: #hidehide; visible:false"
+		  text="align: center ; value: PURPLE; color:while; width: 2.5;">
+	
+		  <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="-3 2 0"
+			geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+		</a-plane>
+	
+	
+		<a-plane class="clickable" id="hidehidep" position="-1 1.5 -5" height="0.2" width="0.4" color="#fc9630" visible="false"
+		  look-at="[camera]" event-set__enter="_event: click; dir:alternate; _target: #Sofa; material:color:#fc9630;"
+		  animation__position="property: visible; from: true; to: false; startEvents: click"
+		  event-set__enterb="_event: click; _target: #hidehideb; visible:false"
+		  event-set__enterr="_event: click; _target: #hidehider; visible:false"
+		  event-set__enterh="_event: click; _target: #hidehide; visible:false"
+		  text="align: center ; value: ORANGE; color:while; width: 2.5;">
+	
+		  <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="-3 2 0"
+			geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+		</a-plane>
+	
+		<a-plane class="clickable" id="hidehider" position="-0.5 1.5 -5" height="0.2" width="0.4" color="red" visible="false"
+		  look-at="[camera]" event-set__enter="_event: click; dir:alternate; _target: #Sofa; material:color:red"
+		  animation__position="property: visible; from: true; to: false; startEvents: click"
+		  event-set__enterp="_event: click; _target: #hidehidep; visible:false"
+		  event-set__enterb="_event: click; _target: #hidehideb; visible:false"
+		  event-set__enterh="_event: click; _target: #hidehide; visible:false"
+		  text="align: center; value: RED; color:while; width: 2.5;">
+	
+		  <a-text id="cylinderText" value="This is a cylinder" align="center" color="#FFF" visible="false" position="-3 2 0"
+			geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+		</a-plane>
+	
+	
+		<!-- Animations. floor-plane -->
+		<a-entity id="fleft" mixin="fleftpos">
+		  <a-entity mixin="bouncy sphere" position="0 1 -3"></a-entity>
+		</a-entity>
+	
+		<a-entity id="camerarig" mixin="campos" position="-0.5 1.3 0"
+		  cursor-teleport="cameraRig: #camerarig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable">
+		  <a-entity id="head" position="0 1.52 0" camera look-controls="reverseMouseDrag: true"></a-entity>
+		  <a-entity laser-controls="hand: left" raycaster="objects: .clickable; far: 100" line="color: red; opacity: 0.75"
+			teleport-controls="
+			  collisionEntities: .collision;
+			  cameraRig: #camerarig;
+			  teleportOrigin: #head;
+			  button: thumbstick;
+			  curveShootingSpeed: 8"></a-entity>
+		  <a-entity laser-controls="hand: right" raycaster="objects: .clickable" line="color: red; opacity: 0.75"
+			teleport-controls="
+			  collisionEntities: .collision;
+			  cameraRig: #camerarig;
+			  teleportOrigin: #head;
+			  button: thumbstick;
+			  curveShootingSpeed: 8"></a-entity>
+		</a-entity>
+	
+		<a-entity id="camera-rig" mixin="campos" position="-0.5 1.3 0">
+	
+		  <a-camera id="camera" mouse-cursor camera="active: true" fov="70">
+	
+		  </a-camera>
+		  
+	
+		</a-entity>
+	
+	
+		<!-- cursor -->
+		<a-entity cursor="rayOrigin: mouse"></a-entity>
+	
+	
+		<!-- Light -->
+	
+		</a-light>
+		<!-- obj -->
+		<a-entity id="Room" obj-model="obj:#Room-obj; mtl:#Room-mtl;" position="0 0 0" scale=".01 .01 .01"
+		  rotation="0 180 0" shadow="receive: true; cast: true"></a-entity>
+	
+		<a-entity class="clickable animated-model raycaster no-teleport" id="Sofa" obj-model="obj:#sofa-obj; mtl:#sofa-mtl;" position="-0.7 0 -5.5" scale=".006 .006 .006"
+		  rotation="0 100 0" animation__position="property: position; from: -0.7 0 -5.5; to: 2 0 -5.5; startEvents: click"
+		  animation__color="property: color; from: #333; to: #ff0000; startEvents: click"
+		  animation__rotation="property: rotation; from: 0 100 0; to: 0 165 0; startEvents: click"
+		  animation-toggle="names: animation__position, animation__color, animation__rotation"
+		  shadow="receive: true; cast: true">
+		</a-entity>
+	
+		<a-entity class="collision" position="0 -.01 0" geometry="primitive: box; width: 10; height: .1; depth: 11"
+		  material="color: red;opacity:0"></a-entity>
+	
+	
+	  </a-scene>
+	</body>
+	
+	</html>
